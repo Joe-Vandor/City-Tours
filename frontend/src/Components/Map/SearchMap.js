@@ -209,7 +209,7 @@ export default function SearchMap(props) {
   }
 
   const { isLoaded } = useLoadScript({
-    googleMapsApiKey: "AIzaSyDFuFtVTMN3kHm2IOr9oMW20l8HwvnhAEY",
+    googleMapsApiKey: ,
     libraries: ['places'],
   })
  
