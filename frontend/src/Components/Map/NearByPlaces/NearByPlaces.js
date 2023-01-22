@@ -48,6 +48,7 @@ export default function NearByPlaces(props) {
       selectedList={typesSelectedList}
       setSelectedList={setTypesSelectedList}/>
       <button className = "reset-button" onClick = {searchNearbyButton}>Search Nearby</button>
+      <button className = "reset-button" onClick = {props.handlePage}> My Trips</button>
       {/* <AutoComplete changeLocationSelected={setPlaceToRequest} /> */}
       <ul className='List-nearby'>
         

@@ -77,11 +77,14 @@ code {
   .container{
     display: flex;
     height: 100vh;
+    grid-template-areas: "landmarkThing"
+    "date";
   }
 
   .controls{
     width: 50%;
     padding: 1rem;
+    
   }
 
   
@@ -91,7 +94,7 @@ code {
   }
   .map-container{
     width: 100%;
-    height: 100vh;
+    height: 80vh;
   }
   /* new additions */
   
@@ -132,10 +135,16 @@ code {
   background: white;
   left: 5%;
   color: black;
-  position: absolute;
+  grid-area: landmark;
   border-radius: 15px;
   padding: 2%;
+  margin: 10px;
 }
+
+.landmark-thingy{
+  grid-area: landmarkThing
+}
+
 .landmark-card button{
   right: auto;
   left: auto;
@@ -162,7 +171,9 @@ code {
 }
 
 .toggle-switches{
-  display: grid;
+  margin: 10px;
+  width: 100px;
+  grid-area: date
 }
 
 /* ADDED FOR TRIPS COMPONENT */
@@ -176,6 +187,7 @@ grid-template-columns: 1fr;
 grid-template-rows: 1fr 4fr;
 grid-template-areas: "header"
                       "inner"
+                      
 ;
 }
 
@@ -213,7 +225,7 @@ grid-template-areas: "header"
   margin: 5px;
   width: 100%;
   color: black;
-  display: flex;
+ 
   grid-area: written;
   background-color: aqua;
 }
@@ -240,7 +252,7 @@ grid-template-areas: "header"
   display: flex;
 }
 .LandmarksListIcon{
-  position: absolute;
+  position: fixed;
   top: 150px;
   right: 100px;
   height: 100px;

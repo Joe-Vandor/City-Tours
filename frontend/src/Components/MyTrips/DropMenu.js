@@ -19,7 +19,7 @@ function DropMenu({collection, setCurrent, getLandmarks, ...args }) {
   return (
     <div className="d-flex p-5">
       <Dropdown isOpen={dropdownOpen} toggle={toggle} >
-        <DropdownToggle caret>Select Date </DropdownToggle>
+        <DropdownToggle caret>12-1-2022 </DropdownToggle>
         <DropdownMenu {...args}>
           <DropdownItem header>Your Itineraries</DropdownItem>
             {collection.map(e => {

@@ -186,7 +186,8 @@ export default function Places(props) {
   }
 
   return (
-    <div>
+    <div className = "places-container">
+      
       <Combobox onSelect={handleSelect}>
         <ComboboxInput
           value={value}
@@ -195,6 +196,7 @@ export default function Places(props) {
           className="combobox-input"
           placeholder="Enter Search Here"
         />
+        
         <ComboboxPopover>
           <ComboboxList>
             {status === "OK" &&
@@ -204,16 +206,20 @@ export default function Places(props) {
           </ComboboxList>
         </ComboboxPopover>
       </Combobox>
+      
       <div className="searchButtonsBox">
-        <NearByPlaces selected={selectedValue} map={props.map} searchResultButton={searchResultButton} />
-        <div>
+        
+        <NearByPlaces handlePage = {props.handlePage} selected={selectedValue} map={props.map} searchResultButton={searchResultButton} />
+        
+        <div className = "landmark-thingy">
           {/* <button className="reset-button" onClick={props.handleCenterClick}>Center Map</button>
           <button className="reset-button" onClick={handleStartingPoint}>Set As Starting Point</button>
           <button className="reset-button" onClick={props.handleStartingClick}>Starting Point</button> */}
 
-          <div className="toggle-switches">
-            <DatePicker selected={date} onChange={date => setDate(date)} />
-          </div>
+          
+          
+            
+         
 
           {landmarkName && <Landmark
             name={landmarkName}
@@ -224,6 +230,7 @@ export default function Places(props) {
             setList={props.setList}
             setListToCreateRoute={props.setListToCreateRoute}
           />}
+          <DatePicker selected={date} onChange={date => setDate(date)} />
         </div>
       </div>
     </div>

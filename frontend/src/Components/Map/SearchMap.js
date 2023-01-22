@@ -7,7 +7,9 @@ import Places from "./Places";
 import NearByPlaces from "./NearByPlaces/NearByPlaces";
 import Itinerary from "./Itinerary";
 import { object } from "prop-types";
-
+import DropMenu from '../MyTrips/DropMenu'
+import Landmark from "../Landmark/Landmark";
+import LandmarkStatus from "../Landmark/LandmarkStatus"
 
 // let LatLngLiteral = window.google.maps.LatLngLiteral;
 // let DirectionsResult = window.google.maps.DirectionsResult;
@@ -35,6 +37,55 @@ export default function SearchMap(props) {
   const [directionsResponse, setDirectionsResponse] = React.useState(null)
   const [itineraryId, setItineraryId] = useState(null);
   const [addresses, setAddresses] = useState([]);
+
+
+  const [current, setCurrent] = React.useState(null)
+  const [ready, setReady] = React.useState(false)
+  const [collection, setCollection] = React.useState([{
+                                                      id: 1,
+                                                      name: "12-1-2022"
+                                                      },
+                                                      {
+                                                      id: 2,
+                                                      name: "joe1",
+                                                      },
+                                                      {
+                                                      id: 3,
+                                                      name: "joe2"
+                                                      }])
+
+  let landmarks;
+  if(ready){
+      landmarks = current.map((landmark) => 
+                              <div>
+                              <Landmark 
+                              id = {landmark.id}
+                              name = {landmark.name} 
+                              address = {landmark.address} 
+                              type ={landmark.type}
+                              pic = {landmark.pic}
+                              availability = {landmark.availability}
+                              />
+                              
+                              </div> )
+  }
+
+  let header;
+  if(current != null){
+  header = <div>{current}</div>
+  }
+
+  const [distance, setDistance] = React.useState('')
+  const [duration, setDuration] = React.useState('')
+
+
+
+
+
+
+
+
+
 
   function sendItinerary(date, startingLandmarkId) {
     let itineraryObject = {
@@ -129,6 +180,8 @@ export default function SearchMap(props) {
 
     })
     setDirectionsResponse(results)
+    setDistance(results.routes[0].legs[0].distance.text)
+    setDuration(results.routes[0].legs[0].duration.text)
   }
 
   console.log(itineraryToRender)
@@ -159,14 +212,20 @@ export default function SearchMap(props) {
     googleMapsApiKey: "AIzaSyDFuFtVTMN3kHm2IOr9oMW20l8HwvnhAEY",
     libraries: ['places'],
   })
+ 
+  const [isMyTrips, setIsMyTrips] = useState(false);
 
+  function changeMyTrips(){
+    setIsMyTrips(!isMyTrips)
+  }
 
   if (!isLoaded) return <div>Loading...</div>
 
+  if(!isMyTrips)
   return (
     <div className="container">
       {/* <NearByPlaces map={map} /> */}
-
+      
       <div className="controls">
         <Places
           map={map}
@@ -190,6 +249,7 @@ export default function SearchMap(props) {
           itineraryId={itineraryId}
           setList={SetItineraryToRender}
           setListToCreateRoute={setListOfPlacesInRoute}
+          handlePage = {changeMyTrips}
         />
         
       </div>
@@ -212,4 +272,50 @@ export default function SearchMap(props) {
       </div>
     </div>
   )
+  
+  return(
+    <div className='trips-outer-container'>
+
+        <div className = 'trips-header'>
+            <h1>Your Routes</h1>
+                {header}
+                <DropMenu collection = {collection} setCurrent = {setCurrent} getLandmarks = {getLandmarks}/>
+                <button onClick = {changeMyTrips}> home</button>
+                
+        </div>
+
+        <div className='trips-inner-container'>
+        
+            <div className = 'directions-outer-container'>
+                <div className = 'directions-inner-container'>
+                   <p> Route distance: {distance}</p>
+                  <br/>
+                   <p>Route duration: {duration}</p> 
+                </div>
+        
+                <div className = 'directions-map-container'>
+                <GoogleMap
+          zoom={10}
+          center={center}
+          mapContainerClassName="map-container"
+          onLoad={onLoad}>
+
+          <Marker position={markerPosition} />
+          {directionsResponse && <DirectionsRenderer directions={directionsResponse} />}
+        </GoogleMap>
+                </div>
+
+                <div className = 'places-outer-container'>
+                
+                    <div className = 'places-inner-container'>
+                    <ul>{itineraryToRender.map((place,key) => <li key={key}>{place}</li>)}</ul>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    )
+
+
 }
